@@ -1,0 +1,17 @@
+{
+  "name": "demo1",
+  "version": "1.0.0",
+  "description": "The hello World of wast",
+  "main": "index.js",
+  "dependencies": {
+    "wabt": "^1.0.13"
+  },
+  "devDependencies": {
+    "jest": "^25.3.0"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "zhuwenfang",
+  "license": "ISC"
+}
