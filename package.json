@@ -1,15 +1,18 @@
 {
-  "name": "demo1",
+  "name": "webassembly-study",
   "version": "1.0.0",
-  "description": "The hello World of wast",
+  "description": "Study the webassembly step by step",
   "main": "index.js",
   "dependencies": {
+    "chalk": "^4.0.0",
+    "inquirer": "^7.1.0",
     "wabt": "^1.0.13"
   },
   "devDependencies": {
     "jest": "^25.3.0"
   },
   "scripts": {
+    "build": "node run.js",
     "test": "jest"
   },
   "author": "zhuwenfang",

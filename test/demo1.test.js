@@ -1,7 +1,7 @@
 const {readFileSync } = require('fs');
 
 const instantiate = async () => {
-    const buffer = readFileSync('./main.wasm');
+    const buffer = readFileSync('demo1/main.wasm');
     const module = await WebAssembly.compile(buffer);
     const instance = await WebAssembly.instantiate(module);
     return instance.exports;
