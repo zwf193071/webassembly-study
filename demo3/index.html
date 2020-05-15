@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standard Sort</title>
+</head>
+<body>
+    <p><span>排序前：</span><span class="sequence-before"></span></p>
+    <p><span>排序后：</span><span class="sequence"></span></p>
+    <script>
+        // 该方法用于从JavaScript环境向指定的共享堆内存段填充数据
+        function importArrayToBuffer (memory, array, offset) {
+            const importBuffer = new Uint32Array(memory.buffer, offset, array.length);
+            for (let i = 0; i < array.length; i++) {
+                importBuffer[i] = array[i];
+            }
+        }
+        // 从远程加载一个Wasm模块，并将该模块中的内容转换成二进制数据
+        let startTime = performance.now();
+        fetch('standard_sort.wasm').then(response => response.arrayBuffer()).then((bytes) => {
+            let memory;
+            // 通过浏览器提供的标准WebAssembly接口来编译和初始化一个Wasm模块
+            WebAssembly.compile(bytes).then(module => WebAssembly.instantiate(module, {
+                env: {
+                    // 需要导入到模块中的JavaScript函数体
+                    print (offset, len) {
+                        let strBuffer = new Uint32Array(memory.buffer, offset, len);
+                        document.querySelector('.sequence').innerText = JSON.stringify(Object.values(strBuffer));
+                    }
+                }
+            })).then(instance => {
+                // 输出下载、编译及实例化Wasm模块花费的时间
+                console.log(performance.now() - startTime);
+                // 取出从Wasm模块中导出的函数
+                let exports = instance.exports;
+                // 获得该Wasm模块实例使用的堆内存对象
+                memory = exports.memory;
+                let arr = [];
+                for (let i = 0; i < 10; i++) {
+                    arr.push(Math.round(Math.random() * 10));
+                }
+                document.querySelector('.sequence-before').innerText = JSON.stringify(arr);
+                // 将整型数组内的元素依次填充到指定的内存段中，即填充到Wasm模块初始化时生成的数组中
+                importArrayToBuffer(memory, arr, exports.getArrayOffset());
+                // 调用Wasm模块暴露出的排序函数
+                exports.sort();
+            });
+        });
+    </script>
+</body>
+</html>
