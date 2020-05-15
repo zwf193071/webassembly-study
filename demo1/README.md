@@ -4,7 +4,7 @@
 
 ## 流程如下所示
 1. 新建main.wat文件
-2. 新建run.js文件，运行`node run.js`，生成main.wasm文件
+2. 需运行`npm run build`，生成main.wasm文件
 3. 新建index.js文件，执行`node index.js`，控制台会输出56（该结果由wat文件里的导出函数输出）
 
 ## 安装jest测试

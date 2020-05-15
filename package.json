@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "chalk": "^4.0.0",
+    "express": "^4.17.1",
     "inquirer": "^7.1.0",
     "wabt": "^1.0.13"
   },
